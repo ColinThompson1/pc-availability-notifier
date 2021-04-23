@@ -1,5 +1,3 @@
-import config from "config";
+import {run} from "./run.js";
 
-import {search} from "./search";
-
-search(config.searches);
+run();

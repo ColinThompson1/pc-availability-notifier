@@ -1,0 +1,9 @@
+{
+  "notifications": {
+    "sms": {
+      "sid": "NOTIFICATIONS_SMS_SID",
+      "token": "NOTIFICATIONS_SMS_TOKEN",
+      "from": "NOTIFICATIONS_SMS_FROM"
+    }
+  }
+}
