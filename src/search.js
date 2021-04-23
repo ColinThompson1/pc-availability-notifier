@@ -1,23 +1,12 @@
 import config from "config";
+import filter from "lodash/filter";
 
 import {createSession} from "./create-session";
 import {scrape} from "./scrape";
 import {hasAvailability} from "./has-availability";
 
 export const search = async (searches) => {
-  const search = {
-    reservationType: "Backcountry", // Campsite, Backcountry
-    park: "Banff,KootenayandYohoBackcountry", // Banff,KootenayandYohoBackcountry, Banff, PacificRim
-    pads: 1,
-    itinerary: [
-      {
-        day: "2021-07-04",
-        campground: "Big Springs - Br9",
-      },
-    ],
-  };
-
-  searches = [search];
+  const successful = [];
 
   for (const search of searches) {
     const {itinerary, reservationType, park} = search;
@@ -34,9 +23,9 @@ export const search = async (searches) => {
     const availability = scrape(response.body);
 
     if (hasAvailability(availability, itinerary)) {
-      console.log("Available!");
-    } else {
-      console.log("Unavailable :(");
-    }
+      successful.push(search);
+    } 
   }
+
+  return successful;
 };

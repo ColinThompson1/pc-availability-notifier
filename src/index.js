@@ -1,3 +1,5 @@
+import config from "config";
+
 import {search} from "./search";
 
-search();
+search(config.searches);
