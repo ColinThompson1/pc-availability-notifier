@@ -1,5 +1,4 @@
 import config from "config";
-import filter from "lodash/filter";
 
 import {createSession} from "./create-session";
 import {scrape} from "./scrape";
