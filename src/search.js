@@ -9,7 +9,9 @@ export const search = async (searches) => {
   const successful = [];
 
   for (const search of searches) {
-    const {itinerary, reservationType, park} = search;
+    const {name, itinerary, reservationType, park} = search;
+
+    console.log(`Searching ${name}...`);
 
     const session = await createSession(config);
 
@@ -23,8 +25,11 @@ export const search = async (searches) => {
     const availability = scrape(response.body);
 
     if (hasAvailability(availability, itinerary)) {
+      console.log("Search successful");
       successful.push(search);
-    } 
+    } else {
+      console.log("Search unsuccessful");
+    }
   }
 
   return successful;
