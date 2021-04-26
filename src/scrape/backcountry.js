@@ -1,31 +1,16 @@
 import addDays from "date-fns/addDays";
-import cheerio from "cheerio";
 import intersection from "lodash/intersection";
-import isEmpty from "lodash/isEmpty";
-import parse from "date-fns/fp/parse";
 import set from "lodash/set";
 
-import {siteStatus} from "./site-status";
+import {siteStatus} from "../site-status";
 
-const parseDates = (str) => {
-  return str
-    .match(/\((.*)\)/)[1]
-    .split("-")
-    .map(parse(new Date(), "MMM d, yyyy"));
-};
+import {parseDates} from "./parse-dates";
 
-export const scrape = (html) => {
+export const backcountry = ($) => {
   const availability = {};
 
-  const $ = cheerio.load(html);
   const cal = $("#siteAvailabilityCalendar");
-
-  let calRange = $("#availabilityCalendarDates").text();
-
-  // Inconsistent across pages
-  if (isEmpty(calRange)) {
-    calRange = $("#siteAvailabilityContainer > h2").text();
-  }
+  const calRange = $("#availabilityCalendarDates").text();
 
   const [from] = parseDates(calRange);
 
@@ -46,6 +31,5 @@ export const scrape = (html) => {
         );
       });
   });
-
   return availability;
 };

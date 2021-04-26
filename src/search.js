@@ -22,7 +22,7 @@ export const search = async (searches) => {
     });
 
     const response = await session.getAvailability(park);
-    const availability = scrape(response.body);
+    const availability = scrape(response.body, reservationType.toLowerCase());
 
     if (hasAvailability(availability, itinerary)) {
       console.log("Search successful");
