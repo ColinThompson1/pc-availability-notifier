@@ -1,6 +1,7 @@
 import addDays from "date-fns/addDays";
 import cheerio from "cheerio";
 import intersection from "lodash/intersection";
+import isEmpty from "lodash/isEmpty";
 import parse from "date-fns/fp/parse";
 import set from "lodash/set";
 
@@ -19,7 +20,14 @@ export const scrape = (html) => {
   const $ = cheerio.load(html);
   const cal = $("#siteAvailabilityCalendar");
 
-  const [from] = parseDates($("#availabilityCalendarDates").text());
+  let calRange = $("#availabilityCalendarDates").text();
+
+  // Inconsistent across pages
+  if (isEmpty(calRange)) {
+    calRange = $("#siteAvailabilityContainer > h2").text();
+  }
+
+  const [from] = parseDates(calRange);
 
   const rows = cal.find("tbody > tr");
   rows.each((i, row) => {
